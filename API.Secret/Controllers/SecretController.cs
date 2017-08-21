@@ -1,7 +1,10 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace API.Secret.Controllers
 {
+    [EnableCors("*", "*", "*")]
+    [RoutePrefix("api/values")]
     public class SecretController : ApiController
     {
         [HttpGet]
