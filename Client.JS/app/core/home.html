@@ -2,26 +2,26 @@
     <div class="col-md-offset-4 col-md-4">
         <h2>Public values</h2>
         <ul class="bg-success">
-            <li  ng-repeat="value in vm.publicValues">{{value}}</li>
+            <li ng-repeat="value in vm.publicValues">{{value}}</li>
         </ul>
 
         <h2>Management values</h2>
-        <ul class="bg-success" ng-if="vm.authorized">
+        <ul class="bg-success" ng-if="vm.managementAuthorized">
             <li ng-repeat="value in vm.managementValues">{{value}}</li>
         </ul>
-        <p ng-if="!vm.authorized" class="bg-danger">Not authorized</p>
-        
+        <p ng-if="!vm.managementAuthorized" class="bg-danger">Not authorized</p>
+
         <h2>Recruitment values</h2>
-        <ul class="bg-success" ng-if="vm.authorized">
+        <ul class="bg-success" ng-if="vm.recruitmentAuthorized">
             <li ng-repeat="value in vm.recruitmentValues">{{value}}</li>
         </ul>
-        <p ng-if="!vm.authorized" class="bg-danger">Not authorized</p>
+        <p ng-if="!vm.recruitmentAuthorized" class="bg-danger">Not authorized</p>
 
         <h2>Secret values</h2>
-        <ul class="bg-success" ng-if="vm.authorized">
+        <ul class="bg-success" ng-if="vm.secretAuthorized">
             <li ng-repeat="value in vm.secretValues">{{value}}</li>
         </ul>
-        <p ng-if="!vm.authorized" class="bg-danger">Not authorized</p>
+        <p ng-if="!vm.secretAuthorized" class="bg-danger">Not authorized</p>
     </div>
 </div>
 <div class="row">
