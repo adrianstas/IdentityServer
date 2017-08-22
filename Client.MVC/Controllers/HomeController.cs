@@ -19,8 +19,8 @@ namespace Client.MVC.Controllers
         {
             ViewBag.Title = "Values";
 
-            var regularClient = RegularClient.GetClient(IdentityConstants.APIRegular);
-            var secretClient = RegularClient.GetClient(IdentityConstants.APISecret);
+            var regularClient = OidcClient.GetClient(IdentityConstants.APIRegular);
+            var secretClient = OidcClient.GetClient(IdentityConstants.APISecret);
 
             var publicValues = await regularClient.GetAsync("values/PublicValues")
                 .ConfigureAwait(false);
@@ -60,6 +60,7 @@ namespace Client.MVC.Controllers
                 secretValuesDeserialized,
                 managementValuesDeserialized,
                 recruitmentValuesDeserialized,
+                publicValues.IsSuccessStatusCode,
                 secretValues.IsSuccessStatusCode,
                 managementValues.IsSuccessStatusCode,
                 recruitmentValues.IsSuccessStatusCode);

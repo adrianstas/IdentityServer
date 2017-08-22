@@ -42,6 +42,22 @@ namespace STS.Config
                     {
                         "http://localhost:53364/callback.html"
                     }
+                },
+                new Client
+                {
+                    ClientId = "mvc_client_auth_code",
+                    ClientName = "MVC Client",
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("mvc_client_auth_code".Sha256())
+                    },
+                    Flow = Flows.AuthorizationCode,
+                    AllowAccessToAllScopes = true,
+                    AccessTokenType = AccessTokenType.Jwt,
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:59196/callback"
+                    }
                 }
             };
         }

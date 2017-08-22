@@ -15,6 +15,10 @@
                     }
                 </ul>
             }
+            else if (Model != null && !Model.PublicAuthorized)
+            {
+                <p class="bg-danger">Not authorized</p>
+            }
 
             <h2>Management values</h2>
             @if (Model != null && Model.ManagementAuthorized && Model.ManagementValues != null)
