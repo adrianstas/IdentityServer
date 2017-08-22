@@ -21,6 +21,20 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            @Html.ActionLink(string.Format("Logout ({0} {1})",
+
+                            ((User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("given_name") == null
+                             ? "" : (User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("given_name").Value),
+
+                            ((User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("family_name") == null
+                            ? "" : (User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("family_name").Value))
+
+                            , "Logout", "Home")
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

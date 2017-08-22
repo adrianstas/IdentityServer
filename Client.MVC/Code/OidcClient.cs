@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Web;
 using IdentityModel.Client;
 
@@ -13,8 +14,13 @@ namespace Client.MVC.Code
         public static HttpClient GetClient(string address)
         {
             HttpClient client = new HttpClient();
-            var accessToken = RequestAccessTokenAuthorizationCode();
-            client.SetBearerToken(accessToken);
+
+            var claimsIdentity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            var token = claimsIdentity?.FindFirst("access_token");
+            if (token != null)
+            {
+                client.SetBearerToken(token.Value);
+            }
 
             client.BaseAddress = new Uri(address);
             client.DefaultRequestHeaders.Accept.Clear();
@@ -22,32 +28,6 @@ namespace Client.MVC.Code
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
             return client;
-        }
-
-        private static string RequestAccessTokenAuthorizationCode()
-        {
-            // did we store the token before?
-            var cookie = HttpContext.Current.Request.Cookies.Get("ClientMVCCookie.AuthCode");
-            if (cookie != null && cookie["access_token"] != null && !string.IsNullOrEmpty(cookie["access_token"]))
-            {
-                return cookie["access_token"];
-            }
-
-            // no token found - request one
-
-            // we'll pass through the URI we want to return to as state
-            var state = HttpContext.Current.Request.Url.OriginalString;
-
-            var authorizeRequest = new AuthorizeRequest(
-                IdentityConstants.AuthEndoint);
-
-            var url = authorizeRequest.CreateAuthorizeUrl(IdentityConstants.MVCClientSecret, "code",
-                "regular secret",
-                IdentityConstants.MVCAuthCodeCallback, state);
-
-            HttpContext.Current.Response.Redirect(url);
-
-            return null;
         }
     }
 }

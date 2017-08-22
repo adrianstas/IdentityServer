@@ -1,5 +1,7 @@
-﻿using System.Web.Http;
+﻿using System.Diagnostics;
+using System.Web.Http;
 using System.Web.Http.Cors;
+using API.Secret.Helpers;
 
 namespace API.Secret.Controllers
 {
@@ -12,6 +14,8 @@ namespace API.Secret.Controllers
         [Route("SecretValues")]
         public IHttpActionResult ManagementValues()
         {
+            TokenHelper.ListClaims();
+
             return Ok(new string[] { "Secret-value-1", "Secret-value-2" });
         }
     }

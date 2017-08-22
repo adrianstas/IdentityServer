@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Cors;
+using API.Regular.Helpers;
 
 namespace API.Regular.Controllers
 {
@@ -20,6 +21,8 @@ namespace API.Regular.Controllers
         [Route("RecruitmentValues")]
         public IHttpActionResult RecruitmentValues()
         {
+            TokenHelper.ListClaims();
+
             return Ok(new string[] { "Recruitment-value-1", "Recruitment-value-2" });
         }
 

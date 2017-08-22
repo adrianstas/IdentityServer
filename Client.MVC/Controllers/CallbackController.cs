@@ -17,17 +17,15 @@ namespace Client.MVC.Controllers
             // with the auth code, we can request an access token.
             var client = new TokenClient(
                 IdentityConstants.TokenEndoint,
-                "mvc_client_auth_code",
-                 IdentityConstants.MVCClientSecretAuthCode);
+                "mvc_client_hybrid",
+                 IdentityConstants.MVCClientSecretHybrid);
 
             var tokenResponse = await client.RequestAuthorizationCodeAsync(
                 authCode,
-                IdentityConstants.MVCAuthCodeCallback);
+                IdentityConstants.MVCHybridCallback);
 
             // we save the token in a cookie for use later on
-            var cookie = Response.Cookies["ClientMVCCookie.AuthCode"];
-            cookie.Expires = DateTime.Now.AddMinutes(1);
-            cookie["access_token"] = tokenResponse.AccessToken;
+            Response.Cookies["ClientMVCCookie.Hybrid"]["access_token"] = tokenResponse.AccessToken;
 
             // get the state (uri to return to)
             var state = Request.QueryString["state"];

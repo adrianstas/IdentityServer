@@ -28,7 +28,7 @@ namespace STS.Config
                 new Client
                 {
                     ClientId = "angular_client_implicit",
-                    ClientName = "Implicit client",                    
+                    ClientName = "Implicit client",
                     Flow = Flows.Implicit,
                     AllowedScopes = new List<string>
                     {
@@ -57,6 +57,26 @@ namespace STS.Config
                     RedirectUris = new List<string>
                     {
                         "http://localhost:59196/callback"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "mvc_client_hybrid",
+                    ClientName = "MVC Client",
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("mvc_client_hybrid".Sha256())
+                    },
+                    Flow = Flows.Hybrid,
+                    AllowAccessToAllScopes = true,
+                    AccessTokenType = AccessTokenType.Jwt,
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:59196/Values/Index"
+                    },
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:59196/Values/Index"
                     }
                 }
             };

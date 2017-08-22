@@ -3,8 +3,10 @@ using Client.MVC.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Client.MVC.Code.Constants;
+using Microsoft.Owin.Security;
 
 namespace Client.MVC.Controllers
 {
@@ -15,6 +17,7 @@ namespace Client.MVC.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<ActionResult> GetApiValues()
         {
             ViewBag.Title = "Values";
@@ -66,6 +69,12 @@ namespace Client.MVC.Controllers
                 recruitmentValues.IsSuccessStatusCode);
 
             return View("Index", vm);
+        }
+
+        public ActionResult Logout()
+        {
+            Request.GetOwinContext().Authentication.SignOut(new AuthenticationProperties { RedirectUri = "https://localhost:44316/Values/Index" });
+            return Redirect("/");
         }
     }
 }

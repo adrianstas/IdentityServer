@@ -9,6 +9,8 @@ namespace STS.Config
         {
             return new List<Scope>
             {
+                StandardScopes.OpenId,
+                StandardScopes.Profile,
                 new Scope
                 {
                     Name = "regular",
@@ -21,7 +23,12 @@ namespace STS.Config
                     Name = "secret",
                     DisplayName = "Secret scope",
                     Description = "Secret scope",
-                    Type = ScopeType.Resource
+                    Type = ScopeType.Resource,
+                    Claims = new List<ScopeClaim>()
+                    {
+                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.GivenName),
+                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.FamilyName)
+                    }
                 }
             };
         }
