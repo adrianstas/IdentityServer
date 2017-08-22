@@ -15,6 +15,10 @@
                     }
                 </ul>
             }
+            else if (Model != null && !Model.PublicAuthorized)
+            {
+                <p class="bg-danger">Not authorized</p>
+            }
 
             <h2>Management values</h2>
             @if (Model != null && Model.ManagementAuthorized && Model.ManagementValues != null)
@@ -65,7 +69,7 @@
 
     <div class="row">
         <div class="col-md-12 text-center">
-            @Html.ActionLink("Get API Data", "GetApiValues", null, new {@class = "btn btn-lg btn-primary"})
+            @Html.ActionLink("Get API Data", "GetApiValues", null, new { @class = "btn btn-lg btn-primary" })
             <button class="btn btn-lg btn-primary" type="submit" onclick="localStorage.clear();">Clear storage</button>
         </div>
     </div>
