@@ -8,6 +8,7 @@ namespace API.Secret.Controllers
     public class SecretController : ApiController
     {
         [HttpGet]
+        [Authorize]
         [Route("SecretValues")]
         public IHttpActionResult ManagementValues()
         {

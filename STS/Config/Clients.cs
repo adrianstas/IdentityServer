@@ -9,6 +9,22 @@ namespace STS.Config
         {
             return new List<Client>()
             {
+                new Client
+                {
+                    ClientId = "client_credentials",
+                    ClientName = "Client credentials client",
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("client_credential".Sha256())
+                    },
+                    Flow = Flows.ClientCredentials,
+                    AllowedScopes = new List<string>
+                    {
+                        "regular",
+                        "secret"
+                    },
+                    AccessTokenType = AccessTokenType.Jwt
+                }
             };
         }
     }

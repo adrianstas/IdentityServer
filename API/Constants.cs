@@ -1,4 +1,4 @@
-﻿namespace STS.Config
+﻿namespace API.Regular
 {
     public class Constants
     {

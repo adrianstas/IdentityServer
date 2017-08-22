@@ -8,6 +8,7 @@ namespace API.Regular.Controllers
     public class ValuesController : ApiController
     {
         [HttpGet]
+        [Authorize]
         [Route("ManagementValues")]
         public IHttpActionResult ManagementValues()
         {
@@ -15,6 +16,7 @@ namespace API.Regular.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("RecruitmentValues")]
         public IHttpActionResult RecruitmentValues()
         {
