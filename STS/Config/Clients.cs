@@ -24,6 +24,24 @@ namespace STS.Config
                         "secret"
                     },
                     AccessTokenType = AccessTokenType.Jwt
+                },
+                new Client
+                {
+                    ClientId = "angular_client_implicit",
+                    ClientName = "Implicit client",                    
+                    Flow = Flows.Implicit,
+                    AllowedScopes = new List<string>
+                    {
+                        "regular",
+                        "secret"
+                    },
+                    AccessTokenType = AccessTokenType.Jwt,
+
+                    // redirect = URI of the Angular application callback page
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:53364/callback.html"
+                    }
                 }
             };
         }

@@ -78,8 +78,10 @@
     <Content Include="app\core\home.controller.js" />
     <Content Include="app\core\home.html" />
     <Content Include="app\core\main.controller.js" />
+    <Content Include="app\core\oidc.manager.js" />
     <Content Include="app\core\secretResource.js" />
     <Content Include="app\core\regularResource.js" />
+    <Content Include="callback.html" />
     <Content Include="Index.html" />
     <Content Include="Scripts\angular-animate\angular-animate.js" />
     <Content Include="Scripts\angular-animate\angular-animate.min.js" />

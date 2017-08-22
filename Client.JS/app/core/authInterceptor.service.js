@@ -16,7 +16,12 @@
 
             config.headers = config.headers || {};
 
-            console.log('This gets executed before each request');
+            var token = localStorage["access_token"];
+            if (token && (!config.params || !config.params.ommitBearerToken)) {
+                config.headers.Authorization = 'Bearer ' + token;
+                console.log("Using the following token:");
+                console.log(token);
+            }
 
             return config;
         }

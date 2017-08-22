@@ -5,6 +5,7 @@ using Swashbuckle.Application;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Tracing;
 using IdentityServer3.AccessTokenValidation;
 
 [assembly: OwinStartup(typeof(API.Secret.Startup))]
@@ -16,6 +17,10 @@ namespace API.Secret
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration httpConfig = new HttpConfiguration();
+
+            SystemDiagnosticsTraceWriter traceWriter = httpConfig.EnableSystemDiagnosticsTracing();
+            traceWriter.IsVerbose = true;
+            traceWriter.MinimumLevel = TraceLevel.Debug;
 
             ConfigureSwashbuckle(httpConfig);
             ConfigureWebApi(httpConfig);
@@ -50,7 +55,6 @@ namespace API.Secret
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.Add(config.Formatters.JsonFormatter);
-            config.Formatters.JsonFormatter.SerializerSettings.Re‌​ferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }
 }

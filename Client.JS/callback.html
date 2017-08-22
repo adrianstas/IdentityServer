@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+<script src="node_modules/oidc-client/dist/oidc-client.js"></script>
+<script>
+    var settings = {
+        loadUserInfo: true,
+        userStore: new Oidc.WebStorageStateStore({ store: window.localStorage })
+    };
+    var mgr = new Oidc.UserManager(settings);
+
+    Oidc.Log.logger = console;
+    Oidc.Log.level = Oidc.Log.INFO;
+
+    mgr.signinRedirectCallback().then(function(user) {
+        if (user.access_token !== undefined) {
+            localStorage["access_token"] = user.access_token;
+            window.location = window.location.protocol + "//" + window.location.host + "/#/home";
+        }
+    }).catch(function(err) {
+        console.log(err);
+    });
+</script>
+</body>
+</html>

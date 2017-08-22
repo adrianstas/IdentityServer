@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Tracing;
 using IdentityServer3.AccessTokenValidation;
 using Microsoft.Owin;
 using Newtonsoft.Json.Serialization;
@@ -16,6 +17,10 @@ namespace API.Regular
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration httpConfig = new HttpConfiguration();
+
+            SystemDiagnosticsTraceWriter traceWriter = httpConfig.EnableSystemDiagnosticsTracing();
+            traceWriter.IsVerbose = true;
+            traceWriter.MinimumLevel = TraceLevel.Debug;
 
             ConfigureSwashbuckle(httpConfig);
             ConfigureWebApi(httpConfig);
@@ -50,7 +55,6 @@ namespace API.Regular
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.Add(config.Formatters.JsonFormatter);
-            config.Formatters.JsonFormatter.SerializerSettings.Re‌​ferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }
 }
