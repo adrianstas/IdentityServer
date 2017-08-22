@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 
 namespace Client.MVC.Code
 {
-    public static class RegularClient
+    public static class OidcClient
     {
         public static HttpClient GetClient(string apiAddress)
         {
