@@ -12,6 +12,7 @@ namespace API.Secret.Controllers
         [HttpGet]
         [Authorize]
         [Route("SecretValues")]
+        [Authorize(Roles = "SecretReader")]
         public IHttpActionResult ManagementValues()
         {
             TokenHelper.ListClaims();

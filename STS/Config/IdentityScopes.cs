@@ -27,7 +27,8 @@ namespace STS.Config
                     Claims = new List<ScopeClaim>()
                     {
                         new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.GivenName),
-                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.FamilyName)
+                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.FamilyName),
+                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.Role, true)
                     }
                 }
             };

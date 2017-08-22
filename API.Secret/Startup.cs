@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens;
+using Microsoft.Owin;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Swashbuckle.Application;
@@ -17,6 +19,8 @@ namespace API.Secret
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration httpConfig = new HttpConfiguration();
+
+            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
             SystemDiagnosticsTraceWriter traceWriter = httpConfig.EnableSystemDiagnosticsTracing();
             traceWriter.IsVerbose = true;
