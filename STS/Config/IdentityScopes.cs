@@ -10,7 +10,7 @@ namespace STS.Config
             return new List<Scope>
             {
                 StandardScopes.OpenId,
-                StandardScopes.Profile,
+                StandardScopes.ProfileAlwaysInclude,
                 new Scope
                 {
                     Name = "regular",
