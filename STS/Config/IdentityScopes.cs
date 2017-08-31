@@ -10,7 +10,6 @@ namespace STS.Config
             return new List<Scope>
             {
                 StandardScopes.OpenId,
-                StandardScopes.ProfileAlwaysInclude,
                 new Scope
                 {
                     Name = "regular",
@@ -29,6 +28,18 @@ namespace STS.Config
                         new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.GivenName),
                         new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.FamilyName),
                         new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.Role, true)
+                    }
+                },
+                new Scope
+                {
+                    Name = "additional",
+                    DisplayName = "Additional scope",
+                    Description = "Additional scope",
+                    Type = ScopeType.Resource,
+                    Claims = new List<ScopeClaim>()
+                    {
+                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.NickName),
+                        new ScopeClaim(IdentityServer3.Core.Constants.ClaimTypes.WebSite)
                     }
                 }
             };

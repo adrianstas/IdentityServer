@@ -19,9 +19,11 @@ namespace STS.Config
                     {
                         new Claim(IdentityServer3.Core.Constants.ClaimTypes.GivenName, "Jan"),
                         new Claim(IdentityServer3.Core.Constants.ClaimTypes.FamilyName, "Nowak"),
-                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.Address, "Katowice")                        
+                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.Address, "Katowice"),
+                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.NickName, "NickNameJanNowak"),
+                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.WebSite, "www.NickNameJanNowak.com")
                     }
-                 },
+                },
                 new InMemoryUser
                 {
                     Username = "secret",
@@ -32,9 +34,11 @@ namespace STS.Config
                         new Claim(IdentityServer3.Core.Constants.ClaimTypes.GivenName, "Piotr"),
                         new Claim(IdentityServer3.Core.Constants.ClaimTypes.FamilyName, "Kowalski"),
                         new Claim(IdentityServer3.Core.Constants.ClaimTypes.Address, "Gliwice"),
-                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.Role, "SecretReader")
+                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.Role, "SecretReader"),
+                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.NickName, "NickNamePiotrKowalski"),
+                        new Claim(IdentityServer3.Core.Constants.ClaimTypes.WebSite, "www.NickNamePiotrKowalski.com")
                     }
-                 }
+                }
             };
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using Client.MVC.Code;
 using Client.MVC.Code.Constants;
+using IdentityModel.Client;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -38,7 +40,7 @@ namespace Client.MVC
                 RedirectUri = IdentityConstants.MVCHybridCallback,
                 SignInAsAuthenticationType = "Cookies",
                 ResponseType = "code id_token token",
-                Scope = "openid profile regular secret",
+                Scope = "openid regular secret additional",
 
                 Notifications = new OpenIdConnectAuthenticationNotifications()
                 {
@@ -47,7 +49,7 @@ namespace Client.MVC
                         Console.WriteLine(n.Exception.Message);
                         return null;
                     },
-                    SecurityTokenValidated = n =>
+                    SecurityTokenValidated = async n =>
                     {
                         TokenHelper.DecodeAndWrite(n.ProtocolMessage.IdToken);
                         TokenHelper.DecodeAndWrite(n.ProtocolMessage.AccessToken);
@@ -62,6 +64,19 @@ namespace Client.MVC
 
                         var familyNameClaim = n.AuthenticationTicket
                             .Identity.FindFirst(IdentityModel.JwtClaimTypes.FamilyName);
+
+                        if (givenNameClaim == null && familyNameClaim == null)
+                        {
+                            var userInfo = new UserInfoClient(IdentityConstants.UserInfoEndoint);
+                            var userInfoResponse = await userInfo.GetAsync(n.ProtocolMessage.AccessToken);
+
+                            givenNameClaim =
+                                userInfoResponse.Claims.FirstOrDefault(
+                                    claim => claim.Type == IdentityModel.JwtClaimTypes.GivenName);
+
+                            familyNameClaim = userInfoResponse.Claims.FirstOrDefault(
+                                    claim => claim.Type == IdentityModel.JwtClaimTypes.FamilyName);
+                        }
 
                         var subClaim = n.AuthenticationTicket
                             .Identity.FindFirst(IdentityModel.JwtClaimTypes.Subject);
@@ -101,8 +116,6 @@ namespace Client.MVC
                         n.AuthenticationTicket = new AuthenticationTicket(
                                                  newClaimsIdentity,
                                                  n.AuthenticationTicket.Properties);
-
-                        return Task.FromResult(n.AuthenticationTicket);
                     },
                     RedirectToIdentityProvider = n =>
                     {
