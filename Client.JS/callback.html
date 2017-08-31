@@ -17,11 +17,11 @@
 
     mgr.signinRedirectCallback().then(function(user) {
         if (user.access_token !== undefined) {
+            localStorage["user_name"] = user.profile.given_name;
             localStorage["access_token"] = user.access_token;
-            window.location = window.location.protocol + "//" + window.location.host + "/#/home";
+            window.location = window.location.protocol + "//" + window.location.host + "/#/home"
         }
     }).catch(function(err) {
-        console.log(err);
     });
 </script>
 </body>

@@ -27,7 +27,8 @@
 <div class="row">
     <div class="col-md-12 text-center">
         <button class="btn btn-lg btn-primary" type="submit" ng-click="vm.getData()">Get API data</button>
-        <button class="btn btn-lg btn-primary" type="submit" ng-click="vm.performLogin()">Sign in</button>
+        <button class="btn btn-lg btn-primary" type="submit" ng-if="!vm.userName || vm.userName.length===0 || vm.userName==='undefined'" ng-click="vm.performLogin()">Sign in</button>
+        <button class="btn btn-lg btn-primary" type="submit" ng-if="vm.userName && vm.userName.length>0 && vm.userName!=='undefined'" ng-click="vm.logOut()">{{vm.userName ? 'Logout ('+vm.userName+')' : ''}}</button>
         <button class="btn btn-lg btn-primary" type="submit" ng-click="vm.clearStorage()">Clear storage</button>
     </div>
 </div>

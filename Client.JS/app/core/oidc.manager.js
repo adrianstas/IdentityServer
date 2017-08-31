@@ -7,10 +7,17 @@
 
             var settings = {
                 authority: 'https://localhost:44388',
-                client_id: 'angular_client_implicit',
+                client_id: 'angular_client_implicit_open_id',
                 redirect_uri: 'http://localhost:53364/callback.html',
-                response_type: 'token',
-                scope: 'regular secret'
+                post_logout_redirect_uri: 'http://localhost:53364/logout_callback.html',
+                response_type: 'id_token token',
+                scope: 'openid profile regular secret additional',
+                EnablePostSignOutAutoRedirect: true,
+                filterProtocolClaims: true,
+                loadUserInfo: true,
+                userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
+                silent_redirect_uri: window.location.protocol + "//" + window.location.host + '/silent_callback.html',
+                automaticSilentRenew: true
             };
 
             var mgr = new Oidc.UserManager(settings);

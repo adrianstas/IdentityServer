@@ -14,6 +14,8 @@
         vm.getData = _getData;
         vm.performLogin = _performLogin;
         vm.clearStorage = _clearStorage;
+        vm.logOut = _logOut;
+
         vm.publicValues = undefined;
         vm.managementValues = undefined;
         vm.recruitmentValues = undefined;
@@ -21,6 +23,19 @@
         vm.recruitmentAuthorized = true;
         vm.managementAuthorized = true;
         vm.secretAuthorized = true;
+        vm.userName = localStorage["user_name"];
+
+        $scope.$on('userLoggedIn', function (event, data) {
+            vm.userName = data.userName;
+            $scope.$apply();
+        });
+
+        $scope.$on('userLoggedOut', function (event, data) {
+            vm.userName = undefined;
+            localStorage.removeItem("user_name");
+            localStorage.removeItem("access_token");
+            $scope.$apply();
+        });
 
         var mgr = OidcManager.OidcTokenManager();
 
@@ -72,6 +87,14 @@
                     console.log(error);
                     vm.secretAuthorized = false;
                 });
+        }
+
+        function _logOut() {
+
+            mgr.signoutRedirect().then(function () {
+                console.log('logged out');
+            }).catch(function (err) {
+            });
         }
 
     }

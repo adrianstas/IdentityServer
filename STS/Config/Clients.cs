@@ -78,6 +78,25 @@ namespace STS.Config
                     {
                         "http://localhost:59196/Values/Index"
                     }
+                },
+                new Client
+                {
+                    ClientId = "angular_client_implicit_open_id",
+                    ClientName = "OIDC Client",
+                    Flow = Flows.Implicit,
+                    AllowAccessToAllScopes = true,
+                    AccessTokenType = AccessTokenType.Jwt,
+                    AccessTokenLifetime = 75,
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "http://localhost:53364/logout_callback.html"
+                    },
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:53364/callback.html",
+                        "http://localhost:53364/silent_callback.html",
+                        "http://localhost:53364/logout_callback.html"
+                    }
                 }
             };
         }
