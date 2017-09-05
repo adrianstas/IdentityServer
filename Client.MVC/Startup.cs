@@ -40,8 +40,7 @@ namespace Client.MVC
                 RedirectUri = IdentityConstants.MVCHybridCallback,
                 SignInAsAuthenticationType = "Cookies",
                 ResponseType = "code id_token token",
-                Scope = "openid regular secret additional",
-
+                Scope = "openid regular secret additional offline_access",
                 Notifications = new OpenIdConnectAuthenticationNotifications()
                 {
                     AuthenticationFailed = n =>
@@ -75,7 +74,7 @@ namespace Client.MVC
                                     claim => claim.Type == IdentityModel.JwtClaimTypes.GivenName);
 
                             familyNameClaim = userInfoResponse.Claims.FirstOrDefault(
-                                    claim => claim.Type == IdentityModel.JwtClaimTypes.FamilyName);
+                                claim => claim.Type == IdentityModel.JwtClaimTypes.FamilyName);
                         }
 
                         var subClaim = n.AuthenticationTicket
@@ -83,12 +82,12 @@ namespace Client.MVC
 
                         // create a new claims, issuer + sub as unique identifier
                         var nameClaim = new Claim(IdentityModel.JwtClaimTypes.Name,
-                                    IdentityConstants.IssuerUri + subClaim.Value);
+                            IdentityConstants.IssuerUri + subClaim.Value);
 
                         var newClaimsIdentity = new ClaimsIdentity(
-                           n.AuthenticationTicket.Identity.AuthenticationType,
-                           IdentityModel.JwtClaimTypes.Name,
-                           IdentityModel.JwtClaimTypes.Role);
+                            n.AuthenticationTicket.Identity.AuthenticationType,
+                            IdentityModel.JwtClaimTypes.Name,
+                            IdentityModel.JwtClaimTypes.Role);
 
                         newClaimsIdentity.AddClaim(nameClaim);
                         newClaimsIdentity.AddClaim(idTokenClaim);
@@ -108,14 +107,25 @@ namespace Client.MVC
                             newClaimsIdentity.AddClaim(scopeClaim);
                         }
 
-                        // add the access token so we can access it later on
-                        newClaimsIdentity.AddClaim(
-                            new Claim("access_token", n.ProtocolMessage.AccessToken));
+                        var tokenClientForRefreshToken = new TokenClient(IdentityConstants.TokenEndoint,
+                            "mvc_client_hybrid", IdentityConstants.MVCClientSecretHybrid);
+
+                        var refreshTokenResponse =
+                            await tokenClientForRefreshToken.RequestAuthorizationCodeAsync(n.ProtocolMessage.Code,
+                                IdentityConstants.MVCHybridCallback);
+
+                        var expirationDateAsRoundtripString = DateTime.SpecifyKind(
+                                DateTime.UtcNow.AddSeconds(refreshTokenResponse.ExpiresIn), DateTimeKind.Utc)
+                            .ToString("o");
+
+                        newClaimsIdentity.AddClaim(new Claim("refresh_token", refreshTokenResponse.RefreshToken));
+                        newClaimsIdentity.AddClaim(new Claim("access_token", refreshTokenResponse.AccessToken));
+                        newClaimsIdentity.AddClaim(new Claim("expires_at", expirationDateAsRoundtripString));
 
                         // create a new authentication ticket, overwriting the old one.
                         n.AuthenticationTicket = new AuthenticationTicket(
-                                                 newClaimsIdentity,
-                                                 n.AuthenticationTicket.Properties);
+                            newClaimsIdentity,
+                            n.AuthenticationTicket.Properties);
                     },
                     RedirectToIdentityProvider = n =>
                     {

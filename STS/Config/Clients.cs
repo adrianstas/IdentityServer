@@ -68,6 +68,7 @@ namespace STS.Config
                         new Secret("mvc_client_hybrid".Sha256())
                     },
                     Flow = Flows.Hybrid,
+                    AccessTokenLifetime = 60,
                     AllowAccessToAllScopes = true,
                     AccessTokenType = AccessTokenType.Jwt,
                     PostLogoutRedirectUris = new List<string>

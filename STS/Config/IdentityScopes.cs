@@ -11,6 +11,7 @@ namespace STS.Config
             {
                 StandardScopes.OpenId,
                 StandardScopes.Profile,
+                StandardScopes.OfflineAccess,                
                 new Scope
                 {
                     Name = "regular",

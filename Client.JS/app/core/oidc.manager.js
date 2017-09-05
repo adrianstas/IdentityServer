@@ -17,13 +17,20 @@
                 loadUserInfo: true,
                 userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
                 silent_redirect_uri: window.location.protocol + "//" + window.location.host + '/silent_callback.html',
+                accessTokenExpiringNotificationTime: 15,
                 automaticSilentRenew: true
             };
 
             var mgr = new Oidc.UserManager(settings);
 
+
+            mgr.events.addAccessTokenExpiring(function () {
+                console.log("access token expiring");
+                mgr.signinRedirect();
+            });
+
             mgr.events.addAccessTokenExpired(function () {
-                console.log("token expired");
+                console.log("token expired");                
             });
 
             mgr.events.addSilentRenewError(function (e) {
