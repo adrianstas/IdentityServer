@@ -26,11 +26,10 @@ namespace Client.MVC.Code
 
         private static string RequestAccessTokenAuthorizationCode()
         {
-            // did we store the token before?
-            var cookie = HttpContext.Current.Request.Cookies.Get("ClientMVCCookie.AuthCode");
-            if (cookie != null && cookie["access_token"] != null && !string.IsNullOrEmpty(cookie["access_token"]))
+            var access_token = HttpContext.Current.Session["access_token"]?.ToString();
+            if (!string.IsNullOrEmpty(access_token))
             {
-                return cookie["access_token"];
+                return access_token;
             }
 
             // no token found - request one

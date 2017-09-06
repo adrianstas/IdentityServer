@@ -24,10 +24,7 @@ namespace Client.MVC.Controllers
                 authCode,
                 IdentityConstants.MVCAuthCodeCallback);
 
-            // we save the token in a cookie for use later on
-            var cookie = Response.Cookies["ClientMVCCookie.AuthCode"];
-            cookie.Expires = DateTime.Now.AddMinutes(1);
-            cookie["access_token"] = tokenResponse.AccessToken;
+            Session["access_token"] = tokenResponse.AccessToken;
 
             // get the state (uri to return to)
             var state = Request.QueryString["state"];
