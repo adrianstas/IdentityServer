@@ -25,7 +25,7 @@ namespace Client.MVC.Controllers
                 IdentityConstants.MVCHybridCallback);
 
             // we save the token in a cookie for use later on
-            Response.Cookies["ClientMVCCookie.Hybrid"]["access_token"] = tokenResponse.AccessToken;
+            Session["access_token"] = tokenResponse.AccessToken;
 
             // get the state (uri to return to)
             var state = Request.QueryString["state"];
