@@ -33,6 +33,12 @@
             mgr.events.addUserLoaded(function (user) {
                 console.log("user loaded", user);
                 mgr.getUser().then(function (user) {
+
+                    if (user.access_token !== undefined) {
+                        localStorage["access_token"] = user.access_token;
+                        console.log("Renewed access_token to" + user.access_token);
+                    }
+
                     $rootScope.$broadcast('userLoggedIn', {
                         userName: user.profile.given_name
                     });
